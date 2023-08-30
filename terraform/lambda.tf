@@ -30,6 +30,7 @@ resource "aws_iam_role_policy" "lambda_role_policy" {
     "Statement" : [
       {
         "Effect" : "Allow",
+        # TODO: change to only CRUD operations
         "Action" : ["dynamodb:*"], # Previous error could be here
         "Resource" : "${aws_dynamodb_table.orders.arn}"
       }
