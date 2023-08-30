@@ -1,0 +1,3 @@
+credentials
+terraform/.terraform*
+terraform/terraform*
