@@ -1,11 +1,11 @@
 resource "aws_lambda_function" "lambda_orders" {
-  for_each      = toset(local.binaries)
+  for_each      = { for route in local.routes : route.name => route }
   function_name = "${each.key}-order"
   handler       = each.key
   runtime       = "go1.x"
   role          = aws_iam_role.lambda_role.arn
   s3_key        = aws_s3_object.lambda_binary[each.key].key
-  s3_bucket     = aws_s3_bucket.lambda_binaries_bucket.bucket
+  s3_bucket     = aws_s3_bucket.lambda_binaries.bucket
 }
 
 resource "aws_iam_role" "lambda_role" {
@@ -30,8 +30,7 @@ resource "aws_iam_role_policy" "lambda_role_policy" {
     "Statement" : [
       {
         "Effect" : "Allow",
-        # TODO: change to only CRUD operations
-        "Action" : ["dynamodb:*"], # Previous error could be here
+        "Action" : ["dynamodb:*"],
         "Resource" : "${aws_dynamodb_table.orders.arn}"
       }
     ]

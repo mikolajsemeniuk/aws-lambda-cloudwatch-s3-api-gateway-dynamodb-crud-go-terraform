@@ -12,7 +12,7 @@ terraform -chdir=terraform destroy -auto-approve
 Build binaries
 
 ```sh
-# available tags: list, find, create, remove
+# available tags: doc, list, find, create, remove
 export tag=create
 GOOS=linux GOARCH=amd64 go build -tags "$tag" -ldflags="-s -w" -o bin/$tag ./cmd
 zip -j bin/$tag.zip bin/$tag
